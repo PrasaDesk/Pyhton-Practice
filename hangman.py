@@ -1,7 +1,7 @@
 import tkinter as tk
 
 root = tk.Tk()
-canvas = tk.Canvas(root, width=200, height=200, borderwidth=0,
+canvas = tk.Canvas(root, width=400, height=500, borderwidth=0,
                    highlightthickness=0, bg="white")
 canvas.grid()
 
@@ -22,15 +22,29 @@ def _create_circle_arc(self, x, y, r, **kwargs):
 
 tk.Canvas.create_circle_arc = _create_circle_arc
 
-canvas.create_circle(100, 50, 20, fill="blue", outline="#DDD", width=4)
 
-canvas.create_line(100, 50, 100, 120)
+x = [1]
 
-canvas.create_line(100, 75, 70, 90)    # Lh
-canvas.create_line(100, 120, 70, 135)  # LL
 
-canvas.create_line(100, 75, 140, 90)    # RH
-canvas.create_line(100, 120, 140, 135)  # RL
+def addG():
+    print("hi")
+    if(len(x) == 1):
+        canvas.create_circle(100, 50, 20, fill="blue", outline="#DDD", width=4)
+    elif(len(x) == 2):
+        canvas.create_line(100, 50, 100, 120)
+    elif(len(x) == 3):
+        canvas.create_line(100, 75, 70, 90)    # Lh
+    elif(len(x) == 4):
+        canvas.create_line(100, 75, 140, 90)    # RH
+    elif(len(x) == 5):
+        canvas.create_line(100, 120, 70, 135)  # LL
+    elif(len(x) == 6):
+        canvas.create_line(100, 120, 140, 135)  # RL
+    x.append(3)
+
+
+tk.Button(root, text="Submit", command=addG)
+
 
 root.wm_title("Circles and Arcs")
 root.mainloop()

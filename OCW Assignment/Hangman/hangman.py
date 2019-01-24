@@ -79,31 +79,22 @@ def get_guessed_word(secret_word, letters_guessed):
     returns: string, comprised of letters, underscores (_), and spaces that represents
       which letters in secret_word have been guessed so far.
     '''
-    flag = 0
+    flag = False
     word = list(secret_word)
 
     if(len(tempWord) == 0):
         for i in range(len(word)):
             tempWord.append("_")
 
-    print(letters_guessed not in word)
-    if(letters_guessed not in word):
-        pass
-    else:
-        i = word.index(letters_guessed)
-        print(i)
-        tempWord[i] = letters_guessed
-
-    print(tempWord)
-
-
-'''
     for i in range(len(letters_guessed)):
         for j in range(len(secret_word)):
             if(secret_word[j] == letters_guessed[i]):
-                word[j] = secret_word[j]
-                flag = 1
-'''
+                tempWord[j] = secret_word[j]
+                flag = True
+
+    tw = ' '.join(tempWord)
+    print("\n", tw, "\n")
+    return flag
 
 
 def get_available_letters(letters_guessed):
@@ -143,10 +134,47 @@ def hangman(secret_word):
 
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    guess_letters = []
+    noGuess = 6
+    warning = 3
 
+    while True:
+        ch = input("Enter the word : ")
 
+        if(len(ch) == 1 and ch.isalpha()):
+            pass
+        else:
+            warning = warning - 1
+            print("NOw you Have Only ", warning, " warnings")
+            if(warning == 0):
+                print("SORRY, You are out off Warning's")
+            else:
+                continue
+
+        if(ch not in guess_letters):
+            guess_letters.append(ch)
+            print("Guess letters : ", guess_letters)
+
+            if(get_guessed_word(secret_word, ch)):
+                pass
+            else:
+                noGuess -= 1
+
+            get_available_letters(guess_letters)
+            print("-----------------------------------")
+
+            if (is_word_guessed(secret_word, guess_letters)):
+                print("end game")
+                break
+        else:
+            noGuess -= 2
+            print("your enter ", ch, " this letter again (-2) guess")
+
+        if (noGuess):
+            print("You have only ", noGuess, " Guesses remaning ..!!!\n")
+        else:
+            break
+        print("-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#\n")
 # -----------------------------------
 
 
@@ -220,19 +248,13 @@ if __name__ == "__main__":
     # uncomment the following two lines.
 
     secret_word = choose_word(wordlist)
+    print("\nYour word is", len(secret_word), " char long\n")
+    print("You have # warnings")
+    print("You have 6 guesses")
     hangman(secret_word)
 
-    guess_letters = []
+    print("Secret Word is :  ", secret_word)
 
-    while True:
-        ch = input("Enter the word : ")
-        guess_letters.append(ch)
-
-        get_guessed_word('apple', ch)
-        get_available_letters(guess_letters)
-        print("----------------------------------------------------------\n")
-        if (is_word_guessed('apple', guess_letters)):
-            break
 ###############
 
     # To test part 3 re-comment out the above lines and
