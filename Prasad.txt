@@ -1,3 +1,0 @@
-This GIT repo is for Practice the Python Basics 
-
-this is repo
