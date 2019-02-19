@@ -11,11 +11,12 @@
 # (so be sure to read the docstrings!)
 import random
 import string
+import copy
 
 WORDLIST_FILENAME = "words.txt"
 tempWord = []
-
-
+sepWord = []
+temp =[]
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
@@ -71,6 +72,8 @@ def is_word_guessed(secret_word, letters_guessed):
     else:
         return False
 
+  
+  
 
 def get_guessed_word(secret_word, letters_guessed):
     '''
@@ -91,6 +94,7 @@ def get_guessed_word(secret_word, letters_guessed):
             if(secret_word[j] == letters_guessed[i]):
                 tempWord[j] = secret_word[j]
                 flag = True
+                
 
     tw = ' '.join(tempWord)
     print("\n", tw, "\n")
@@ -107,6 +111,32 @@ def get_available_letters(letters_guessed):
     for i in range(len(letters_guessed)):
         abc = abc.replace(letters_guessed[i], "")
     print(abc)
+
+def swaplist(stemp, sSwpword):
+    for w in temp:
+      sepWord.append(w)
+    temp.clear()
+
+
+def getHintWords(ch, pos):
+    for w in sepWord:
+      if(w[pos] == ch):
+        temp.append(w)
+    print("temp =================================\n\n",temp,"========================\n\n")
+    #print("sepword =================================\n\n",sepWord,"========================\n\n")
+    sepWord.clear()
+    swaplist(temp, sepWord)
+    
+    
+
+
+def get_words(secret_word):
+    slen = len(secret_word)
+    
+    for word in wordlist:
+      if(slen == len(word)):
+        sepWord.append(word)
+
 
 
 def hangman(secret_word):
@@ -137,10 +167,10 @@ def hangman(secret_word):
     guess_letters = []
     noGuess = 6
     warning = 3
-
+    get_words(secret_word)
+    
     while True:
         ch = input("Enter the word : ")
-
         if(len(ch) == 1 and ch.isalpha()):
             pass
         else:
@@ -156,9 +186,13 @@ def hangman(secret_word):
             print("Guess letters : ", guess_letters)
 
             if(get_guessed_word(secret_word, ch)):
+                getHintWords(ch, secret_word.index(ch))
                 pass
             else:
-                noGuess -= 1
+                if(ch not in 'aeiou'):
+                  noGuess -= 1
+                else:
+                  noGuess -= 2
 
             get_available_letters(guess_letters)
             print("-----------------------------------")
@@ -168,13 +202,16 @@ def hangman(secret_word):
                 break
         else:
             noGuess -= 2
-            print("your enter ", ch, " this letter again (-2) guess")
+            print("you enter ", ch, " this letter again (-2) guess")
 
-        if (noGuess):
+        if (noGuess > 0):
             print("You have only ", noGuess, " Guesses remaning ..!!!\n")
         else:
             break
         print("-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#\n")
+        
+        print("-#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#\n")
+    print("your Scoure is : ", noGuess * len(secret_word))
 # -----------------------------------
 
 
@@ -249,6 +286,7 @@ if __name__ == "__main__":
 
     secret_word = choose_word(wordlist)
     print("\nYour word is", len(secret_word), " char long\n")
+    print(secret_word)
     print("You have # warnings")
     print("You have 6 guesses")
     hangman(secret_word)
