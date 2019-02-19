@@ -8,7 +8,7 @@ def printFile():
     temp = input("enter the char = ")
     for word in listFile:
         if(word.startswith(temp)):
-            sepWord.append(word[0])
+            sepWord.append(word)
     print(sepWord)
     filestr.close()
 
