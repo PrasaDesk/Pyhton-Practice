@@ -185,10 +185,8 @@ temp = []
 sepWord = []
 
 def swapList():
-  # for word in sepWord:
-  #   temp.append(word)
-
-  temp = copy.deepcopy(sepWord)
+  for word in sepWord:
+    temp.append(word)
   sepWord.clear()
 
 def getHintWord(char, pos):
