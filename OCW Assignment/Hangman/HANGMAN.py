@@ -1,7 +1,7 @@
 # Problem Set 2, hangman.py
-# Name:
+# Name: Prasad Yeole
 # Collaborators:
-# Time spent:
+# Time spent: 2 days (18 Feb, 19 Feb) year=2019
 
 # Hangman Game
 # -----------------------------------
