@@ -248,11 +248,7 @@ def hangman_with_hints(secret_word):
       print("\tAvaliable Letter :  ", get_available_letters(allGuess))
       print('\t------------------------------------------------')
       chGuess = input("\tEnter the Character : ")
-      if chGuess == "":
-        print('\n\t#----------------------------------------------#')
-        print("\t# Please, Enter Character Don't leave it Blank #")
-        print('\t#----------------------------------------------#\n')
-        continue
+      
       ##########################################################
       # to Know secret word only for admin purpose
       if chGuess == 'sw':                 # enter 'sw' instead of any char and then pswd
@@ -260,6 +256,16 @@ def hangman_with_hints(secret_word):
         if pswd == 'root123':
           print('\tSecret Word is = ', secret_word)
         print('\t----------------------------------')
+        continue
+      elif chGuess == "":
+        print('\n\t#----------------------------------------------#')
+        print("\t# Please, Enter Character Don't leave it Blank #")
+        print('\t#----------------------------------------------#\n')
+        continue
+      elif chGuess == '*':
+        print('\tHint words are : ')
+        print('\t', temp)
+        print('\t-----------------------------------------------------------------------------------------------\n\n\n')
         continue
       ###########################################################
       
@@ -302,21 +308,22 @@ def hangman_with_hints(secret_word):
       print('\t----------------------------------')          
       print("\tGuess Word is : ",guessed_word)
       print('\t----------------------------------\n')
-      print('\tHint words are : ')
+      
       if len(pos) > 0:
         getHintWord(chGuess, pos)
         print("\tTotal Hint Word\'s are : ", len(temp))
-        print('\t',temp)
+        #print('\t',temp)
       pos = []
       
-      print('\t-----------------------------------------------------------------------------------------------\n\n\n')
+      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n")
     
       if is_word_guessed(secret_word, letters_guessed):
           unique_letters = []
           for char in secret_word:
               if char not in unique_letters:
                 unique_letters.append(char)
-          print("\t############ ~ C O N G R A T U L A T I O N ~ #############\n")
+          print("\t############ ~ C O N G R A T U L A T I O N ~ #############")
+          print("\t#")
           print('\t# Congratulations, you won!')
           print('\t# Your total score for this game is ', noGuess * len(unique_letters))
           break
@@ -345,7 +352,8 @@ if __name__ == "__main__":
     #hangman(secret_word)
     hangman_with_hints(secret_word)
     print("\t# Secret Word is :  ", secret_word)
-    print("\n\t##########################################################")
+    print("\t#")
+    print("\t##########################################################")
 
 ###############
 
