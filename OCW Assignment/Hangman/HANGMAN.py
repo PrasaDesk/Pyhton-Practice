@@ -81,19 +81,20 @@ def get_guessed_word(secret_word, letters_guessed):
             secretWordPrint += char
             
     return secretWordPrint
-    
+
+
+
 def get_available_letters(letters_guessed):
     '''
     letters_guessed: list (of letters), which letters have been guessed so far
     returns: string (of letters), comprised of letters that represents which letters have not
       yet been guessed.
     '''
-    remainLetters = ''
-    for char in string.ascii_lowercase:
-        if char not in letters_guessed:
-            remainLetters += char
-    
-    return remainLetters
+    abc = string.ascii_lowercase
+    for i in range(len(letters_guessed)):
+        abc = abc.replace(letters_guessed[i], "")
+        
+    return abc
 
 def hangman(secret_word):
     '''
@@ -245,7 +246,7 @@ def hangman_with_hints(secret_word):
     
     while noGuess > 0:
       print("\tYou have ",noGuess," Guess Remaining")
-      print("\tAvaliable Letter :  ", get_available_letters(allGuess))
+      print("\tAvaliable Letter :  ", get_available_letters(letters_guessed))
       print('\t------------------------------------------------')
       chGuess = input("\tEnter the Character : ")
       
