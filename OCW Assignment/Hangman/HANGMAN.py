@@ -15,6 +15,7 @@ import copy
 
 WORDLIST_FILENAME = "words.txt"
 
+
 def load_words():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
@@ -50,6 +51,7 @@ def choose_word(wordlist):
 # so that it can be accessed from anywhere in the program
 wordlist = load_words()
 
+
 def is_word_guessed(secret_word, letters_guessed):
     '''
     secret_word: string, the word the user is guessing; assumes all letters are
@@ -62,9 +64,9 @@ def is_word_guessed(secret_word, letters_guessed):
     for char in secret_word:
         if char not in letters_guessed:
             return False
-        
+
     return True
-  
+
 
 def get_guessed_word(secret_word, letters_guessed):
     '''
@@ -79,9 +81,8 @@ def get_guessed_word(secret_word, letters_guessed):
             secretWordPrint += '_ '
         else:
             secretWordPrint += char
-            
-    return secretWordPrint
 
+    return secretWordPrint
 
 
 def get_available_letters(letters_guessed):
@@ -93,8 +94,9 @@ def get_available_letters(letters_guessed):
     abc = string.ascii_lowercase
     for i in range(len(letters_guessed)):
         abc = abc.replace(letters_guessed[i], "")
-        
+
     return abc
+
 
 def hangman(secret_word):
     '''
@@ -127,84 +129,89 @@ def hangman(secret_word):
     noWarning = 3
     print(secret_word)
     while noGuess > 0:
-      print("You have ",noGuess," Guess Remaining")
-      print("Avaliable Letter :  ", get_available_letters(allGuess))
-      print('----------------------------------')
-      chGuess = input("Enter the Character : ")
+        print("You have ", noGuess, " Guess Remaining")
+        print("Avaliable Letter :  ", get_available_letters(allGuess))
+        print('----------------------------------')
+        chGuess = input("Enter the Character : ")
 
-      if chGuess.isalpha():
-            if chGuess not in letters_guessed:   
+        if chGuess.isalpha():
+            if chGuess not in letters_guessed:
                 letters_guessed.append(chGuess)
                 guessed_word = get_guessed_word(secret_word, letters_guessed)
-                
+
                 if chGuess in secret_word:
-                    print('Good guess: ',chGuess)
+                    print('Good guess: ', chGuess)
                 else:
                     if chGuess in 'aeiou':
                         noGuess -= 2
                     else:
-                        noGuess -= 1  
+                        noGuess -= 1
                     print('Oops! That letter is not in my word.')
             else:
                 if noWarning > 0:
                     noWarning -= 1
-                    print('Oops! You\'ve already guessed that letter. You now have ',noWarning,' warnings.\n')
+                    print('Oops! You\'ve already guessed that letter. You now have ',
+                          noWarning, ' warnings.\n')
                 else:
                     noGuess -= 1
-                    print('Oops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.\n')
+                    print(
+                        'Oops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.\n')
 
-      else:
-          if noWarning > 0:
-              noWarning -= 1
-              print('Oops! That is not a valid letter. You have ',noWarning,' warnings left.')
-          else:
-              noGuess -= 1
-              print('Oops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.')
-      
-      print('----------------------------------')          
-      print("Guess Word is : ",guessed_word)
-      print('----------------------------------\n\n')
-    
-      if is_word_guessed(secret_word, letters_guessed):
-          unique_letters = []
-          for char in secret_word:
-              if char not in unique_letters:
-                unique_letters.append(char)
-          print("############ ~ C O N G R A T U L A T I O N ~ #############\n")
-          print('# Congratulations, you won!')
-          print('# Your total score for this game is ', noGuess * len(unique_letters))
-          break
-    
-      if noGuess <= 0:
-          print('Sorry, you ran out of guesses. The word was ', secret_word)
-          break
+        else:
+            if noWarning > 0:
+                noWarning -= 1
+                print('Oops! That is not a valid letter. You have ',
+                      noWarning, ' warnings left.')
+            else:
+                noGuess -= 1
+                print(
+                    'Oops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.')
 
-          
+        print('----------------------------------')
+        print("Guess Word is : ", guessed_word)
+        print('----------------------------------\n\n')
+
+        if is_word_guessed(secret_word, letters_guessed):
+            unique_letters = []
+            for char in secret_word:
+                if char not in unique_letters:
+                    unique_letters.append(char)
+            print("############ ~ C O N G R A T U L A T I O N ~ #############\n")
+            print('# Congratulations, you won!')
+            print('# Your total score for this game is ',
+                  noGuess * len(unique_letters))
+            break
+
+        if noGuess <= 0:
+            print('Sorry, you ran out of guesses. The word was ', secret_word)
+            break
 
 
 temp = []
 sepWord = []
 
+
 def swapList():
-  for word in sepWord:
-    temp.append(word)
-  sepWord.clear()
+    for word in sepWord:
+        temp.append(word)
+    sepWord.clear()
+
 
 def getHintWord(char, pos):
-  #l = 0
-  cnt = len(pos)
-  f = 0
-  for word in temp:
-    #l += 1
-    for i in pos:
-      if word[i] == char:
-        f += 1
-    if cnt == f:
-      sepWord.append(word)
-    f = 0      
-  temp.clear()
-  swapList()
-  #print("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@\nLoop itrate this much time : ",l,"\n@@@@@@@@@@@@@@@@@@@@@@@@@\n")
+    #l = 0
+    cnt = len(pos)
+    f = 0
+    for word in temp:
+        #l += 1
+        for i in pos:
+            if word[i] == char:
+                f += 1
+        if cnt == f:
+            sepWord.append(word)
+        f = 0
+    temp.clear()
+    swapList()
+    #print("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@\nLoop itrate this much time : ",l,"\n@@@@@@@@@@@@@@@@@@@@@@@@@\n")
 
 
 def hangman_with_hints(secret_word):
@@ -235,111 +242,115 @@ def hangman_with_hints(secret_word):
     Follows the other limitations detailed in the problem write-up.
     '''
     for w in wordlist:
-      if len(w) == len(secret_word):
-        temp.append(w)
+        if len(w) == len(secret_word):
+            temp.append(w)
 
     letters_guessed = []
     allGuess = []
     noGuess = 6
     noWarning = 3
     pos = []
-    
+
     while noGuess > 0:
-      print("\tYou have ",noGuess," Guess Remaining")
-      print("\tAvaliable Letter :  ", get_available_letters(letters_guessed))
-      print('\t------------------------------------------------')
-      chGuess = input("\tEnter the Character : ")
-      
-      ##########################################################
-      # to Know secret word only for admin purpose
-      if chGuess == 'sw':                 # enter 'sw' instead of any char and then pswd
-        pswd = input('\tenter the password : ')
-        if pswd == 'root123':
-          print('\tSecret Word is = ', secret_word)
-        print('\t----------------------------------')
-        continue
-      elif chGuess == "":
-        print('\n\t#----------------------------------------------#')
-        print("\t# Please, Enter Character Don't leave it Blank #")
-        print('\t#----------------------------------------------#\n')
-        continue
-      elif chGuess == '*':
-        print('\tHint words are : ')
-        print('\t', temp)
-        print('\t-----------------------------------------------------------------------------------------------\n\n\n')
-        continue
-      ###########################################################
-      
-      if chGuess.isalpha():
-            if chGuess not in letters_guessed:   
+        print("\tYou have ", noGuess, " Guess Remaining")
+        print("\tAvaliable Letter :  ", get_available_letters(letters_guessed))
+        print('\t------------------------------------------------')
+        chGuess = input("\tEnter the Character : ")
+
+        ##########################################################
+        # to Know secret word only for admin purpose
+        if chGuess == 'sw':                 # enter 'sw' instead of any char and then pswd
+            pswd = input('\tenter the password : ')
+            if pswd == 'root123':
+                print('\tSecret Word is = ', secret_word)
+            print('\t----------------------------------')
+            continue
+        elif chGuess == "":
+            print('\n\t#----------------------------------------------#')
+            print("\t# Please, Enter Character Don't leave it Blank #")
+            print('\t#----------------------------------------------#\n')
+            continue
+        elif chGuess == '*':
+            print('\tHint words are : ')
+            print('\t', temp)
+            print('\t-----------------------------------------------------------------------------------------------\n\n\n')
+            continue
+        ###########################################################
+
+        if chGuess.isalpha():
+            if chGuess not in letters_guessed:
                 letters_guessed.append(chGuess)
                 guessed_word = get_guessed_word(secret_word, letters_guessed)
-                
+
                 if chGuess in secret_word:
                     for i in range(len(secret_word)):
-                      if chGuess == secret_word[i]:
-                        pos.append(i)
+                        if chGuess == secret_word[i]:
+                            pos.append(i)
 
-                    print('\tGood guess: ',chGuess)
+                    print('\tGood guess: ', chGuess)
                 else:
                     if chGuess in 'aeiou':
                         noGuess -= 2
                     else:
-                        noGuess -= 1  
+                        noGuess -= 1
                     print('\tOops! That letter is not in my word.')
             else:
                 if noWarning > 0:
                     noWarning -= 1
-                    print('\tOops! You\'ve already guessed that letter. You now have ',noWarning,' warnings.\n')
+                    print('\tOops! You\'ve already guessed that letter. You now have ',
+                          noWarning, ' warnings.\n')
                 else:
                     noGuess -= 1
-                    print('\tOops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.\n')
+                    print(
+                        '\tOops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.\n')
 
-      else:
-          if noWarning > 0:
-              noWarning -= 1
-              print('\tWARNING : Oops! That is not a valid letter. You have ',noWarning,' warnings left.')
-              continue
-          else:
-              noGuess -= 1
-              print('\tOops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.')
-              if not chGuess.isalpha == False:
+        else:
+            if noWarning > 0:
+                noWarning -= 1
+                print('\tWARNING : Oops! That is not a valid letter. You have ',
+                      noWarning, ' warnings left.')
                 continue
-      
-      print('\t----------------------------------')          
-      print("\tGuess Word is : ",guessed_word)
-      print('\t----------------------------------\n')
-      
-      if len(pos) > 0:
-        getHintWord(chGuess, pos)
-        print("\tTotal Hint Word\'s are : ", len(temp))
-        #print('\t',temp)
-      pos = []
-      
-      print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n")
-    
-      if is_word_guessed(secret_word, letters_guessed):
-          unique_letters = []
-          for char in secret_word:
-              if char not in unique_letters:
-                unique_letters.append(char)
-          print("\t############ ~ C O N G R A T U L A T I O N ~ #############")
-          print("\t#")
-          print('\t# Congratulations, you won!')
-          print('\t# Your total score for this game is ', noGuess * len(unique_letters))
-          break
-    
-      if noGuess <= 0:
-          print('\tSorry, you ran out of guesses. The word was [ ',secret_word, ' ]')
-          break
+            else:
+                noGuess -= 1
+                print(
+                    '\tOops! You\'ve already guessed that letter. You now have no warnings left so you lose one guess.')
+                if not chGuess.isalpha == False:
+                    continue
 
+        print('\t----------------------------------')
+        print("\tGuess Word is : ", guessed_word)
+        print('\t----------------------------------\n')
+
+        if len(pos) > 0:
+            getHintWord(chGuess, pos)
+            print("\tTotal Hint Word\'s are : ", len(temp))
+            # print('\t',temp)
+        pos = []
+
+        print("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n")
+
+        if is_word_guessed(secret_word, letters_guessed):
+            unique_letters = []
+            for char in secret_word:
+                if char not in unique_letters:
+                    unique_letters.append(char)
+            print("\t############ ~ C O N G R A T U L A T I O N ~ #############")
+            print("\t#")
+            print('\t# Congratulations, you won!')
+            print('\t# Your total score for this game is ',
+                  noGuess * len(unique_letters))
+            break
+
+        if noGuess <= 0:
+            print(
+                '\tSorry, you ran out of guesses. The word was [ ', secret_word, ' ]')
+            break
 
 
 # When you've completed your hangman_with_hint function, comment the two similar
 # lines above that were used to run the hangman function, and then uncomment
 # these two lines and run this file to test!
 # Hint: You might want to pick your own secret_word while you're testing.
-
 if __name__ == "__main__":
     # pass
 
@@ -350,7 +361,7 @@ if __name__ == "__main__":
     print("\n\tYour word is", len(secret_word), " char long\n")
     print("\tYou have 3 warnings")
     print("\tYou have 6 guesses")
-    #hangman(secret_word)
+    # hangman(secret_word)
     hangman_with_hints(secret_word)
     print("\t# Secret Word is :  ", secret_word)
     print("\t#")
